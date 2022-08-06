@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0px;
+            /* text-align: center; */
+            background-color: #f1f1f1;
+        }
+        
+        .key {
+            /* margin-left: 342px; */
+            height: 50px;
+            width: 595px;
+            background-color: blueviolet;
+        }
+        
+        .keyBlack {
+            height: 200px;
+            width: 70px;
+            background: black;
+            color: yellow;
+        }
+        
+        .keyWhite {
+            border-bottom: white;
+            height: 200px;
+            width: 70px;
+            background-color: white;
+            color: darkred;
+        }
+        
+        button {
+            border: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="key">
+        <input type="text" id="chords">
+        <button onclick="save()">SAVE</button>
+    </div>
+    <button onclick="run('C4')" class="keyBlack">C4</button>
+    <button onclick="run('D4')" class="keyWhite">D4</button>
+    <button onclick="run('E4')" class="keyBlack">E4</button>
+    <button onclick="run('F4')" class="keyWhite">F4</button>
+    <button onclick="run('G4')" class="keyBlack">G4</button>
+    <button onclick="run('A4')" class="keyWhite">A4</button>
+    <button onclick="run('B4')" class="keyBlack">B4</button>
+    <button onclick="run('C5')" class="keyWhite">C5</button>
+    <br>
+    <br>
+    <ul id="list"></ul>
+
+    <script>
+        let chords = document.getElementById("chords");
+        let pianoMemory = [];
+        let list = document.getElementById("list");
+
+        function run(x) {
+            const a = new Audio(`sound/${x}.mp3`);
+            a.play();
+            chords.value += x + ",";
+            console.log("hh");
+        }
+
+        function save() {
+            let input = chords.value;
+            pianoMemory.push(input);
+            // console.log("save");
+            chords.value = "";
+            list.innerHTML = "";
+            pianoMemory.map(function(el, index) {
+                list.innerHTML += `<li>${el} <button onclick = "rePlay(${index})" >Replay</button></li>`;
+
+            });
+        }
+
+        let m = ["C4", "E4", "B4", "C4", "C4", "B4", "E4", "C4", "B4", ];
+
+        function runMemory(arr, delay = 1000) {
+            let x = delay;
+            arr.map(function(el, index) {
+                setTimeout(run, x, el);
+                x += delay;
+            });
+        }
+
+        function rePlay(x) {
+            let current = pianoMemory[x].split(",");
+            // let tempo = prompt("input tempo in ms");
+            current.pop();
+            runMemory(current);
+        }
+        document.addEventListener("keyup", function(e) {
+            console.log(e.keyCode);
+            let current = e.keyCode;
+            if (current == 65) {
+                run('C4');
+            } else if (current == 83) {
+                run('D4');
+            } else if (current == 68) {
+                run('E4');
+            } else if (current == 70) {
+                run('F4');
+            } else if (current == 74) {
+                run('G4');
+            } else if (current == 75) {
+                run('A4');
+            } else if (current == 76) {
+                run('B4');
+            } else if (current == 186) {
+                run('C4');
+            };
+        })
+    </script>
+</body>
+
+</html>
+
+</html>
